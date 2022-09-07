@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Easy Digital Downloads - Flat Rate Shipping
- * Plugin URI: https://easydigitaldownloads.com/downloads/simple-shipping
+ * Plugin URI: https://github.com/jeremyers1/EDD-Flat-Rate-Shipping
  * Description: Provides the ability to charge a single flat-rate shipping fee for physical products in EDD.
  * Version: 1.0.0
  * Author: Jeremy D Myers
@@ -54,7 +54,7 @@ class EDD_Flat_Rate_Shipping {
 	public static function get_instance() {
 
 		if ( ! self::$instance ) {
-			self::$instance = new EDD_Simple_Shipping();
+			self::$instance = new EDD_Flat_Rate_Shipping();
 		}
 
 		return self::$instance;
@@ -80,8 +80,8 @@ class EDD_Flat_Rate_Shipping {
 	}
 
 	private function setup_constants() {
-		if ( ! defined( 'EDD_SIMPLE_SHIPPING_VERSION' ) ) {
-			define( 'EDD_SIMPLE_SHIPPING_VERSION', '2.3.11' );
+		if ( ! defined( 'EDD_FLAT_RATE_SHIPPING_VERSION' ) ) {
+			define( 'EDD_FLAT_RATE_SHIPPING_VERSION', '2.3.11' );
 		}
 	}
 
@@ -92,10 +92,10 @@ class EDD_Flat_Rate_Shipping {
 	 */
 	private function maybeRunInstall() {
 		add_action( 'admin_init', function() {
-			if ( get_option( 'edd_simple_shipping_run_install' ) ) {
-				edd_simple_shipping_install();
+			if ( get_option( 'edd_flat_rate_shipping_run_install' ) ) {
+				edd_flat_rate_shipping_install();
 
-				delete_option( 'edd_simple_shipping_run_install' );
+				delete_option( 'edd_flat_rate_shipping_run_install' );
 			}
 		} );
 	}
@@ -150,11 +150,11 @@ class EDD_Flat_Rate_Shipping {
 		}
 
 		// Load all the settings into local variables so we can use them.
-		$this->settings = new EDD_Simple_shipping_Settings();
-		$this->tracking = new EDD_Simple_Shipping_Tracking();
+		$this->settings = new EDD_Flat_Rate_Shipping_Settings();
+		$this->tracking = new EDD_Flat_Rate_Shipping_Tracking();
 		if ( is_admin() ) {
-			$this->admin = new EDD_Simple_Shipping_Admin();
-			$this->metabox = new EDD_Simple_shipping_Metabox();
+			$this->admin = new EDD_Flat_Rate_Shipping_Admin();
+			$this->metabox = new EDD_Flat_Rate_Shipping_Metabox();
 		}
 
 		$this->plugins_check();
@@ -163,42 +163,42 @@ class EDD_Flat_Rate_Shipping {
 		// @todo The `elseif` can be removed once EDD minimum is 2.11.4.
 		if ( class_exists( '\\EDD\\Extensions\\ExtensionRegistry' ) ) {
 			add_action( 'edd_extension_license_init', function( \EDD\Extensions\ExtensionRegistry $registry ) {
-				$registry->addExtension( __FILE__, 'Simple Shipping', 33730, EDD_SIMPLE_SHIPPING_VERSION, 'edd_simple_shipping_license_key' );
+				$registry->addExtension( __FILE__, 'Flat Rate Shipping', 33730, EDD_FLAT_RATE_SHIPPING_VERSION, 'edd_flat_rate_shipping_license_key' );
 			} );
 		} elseif ( class_exists( 'EDD_License' ) ) {
-			new EDD_License( __FILE__, 'Simple Shipping', EDD_SIMPLE_SHIPPING_VERSION, 'Easy Digital Downloads', 'edd_simple_shipping_license_key', null, 33730 );
+			new EDD_License( __FILE__, 'Flat Rate Shipping', EDD_FLAT_RATE_SHIPPING_VERSION, 'Easy Digital Downloads', 'edd_flat_rate_shipping_license_key', null, 33730 );
 		}
 	}
 
 	/**
-	 * Register any scripts we need for Simple Shipping
+	 * Register any scripts we need for Flat Rate Shipping
 	 *
 	 * @since 2.3
 	 * @return void
 	 */
 	public function admin_scripts() {
-		wp_register_script( 'edd-simple-shipping-admin', $this->plugin_url . '/assets/js/admin-scripts.js', array( 'jquery' ), EDD_SIMPLE_SHIPPING_VERSION );
-		wp_enqueue_script( 'edd-simple-shipping-admin' );
+		wp_register_script( 'edd-flat-rate-shipping-admin', $this->plugin_url . '/assets/js/admin-scripts.js', array( 'jquery' ), EDD_FLAT_RATE_SHIPPING_VERSION );
+		wp_enqueue_script( 'edd-flat-rate-shipping-admin' );
 
-		wp_register_style( 'edd-simple-shipping-admin', $this->plugin_url . '/assets/css/admin-styles.css', EDD_SIMPLE_SHIPPING_VERSION );
-		wp_enqueue_style( 'edd-simple-shipping-admin' );
+		wp_register_style( 'edd-flat-rate-shipping-admin', $this->plugin_url . '/assets/css/admin-styles.css', EDD_FLAT_RATE_SHIPPING_VERSION );
+		wp_enqueue_style( 'edd-flat-rate-shipping-admin' );
 	}
 
 	/**
-	 * Register any styles we need for Simple Shipping
+	 * Register any styles we need for Flat Rate Shipping
 	 *
 	 * @since 2.3
 	 * @return void
 	 */
 	public function enqueue_styles() {
-		wp_register_script( 'edd-simple-shipping', $this->plugin_url . '/assets/js/index.js', array( 'edd-checkout-global' ), EDD_SIMPLE_SHIPPING_VERSION, true );
+		wp_register_script( 'edd-flat-rate-shipping', $this->plugin_url . '/assets/js/index.js', array( 'edd-checkout-global' ), EDD_FLAT_RATE_SHIPPING_VERSION, true );
 		if ( edd_is_checkout() && $this->needs_shipping_fields() ) {
 			add_filter( 'edd_global_checkout_script_vars', function( $vars ) {
-				$vars['shipping_base_region'] = edd_get_option( 'edd_simple_shipping_base_country', 'US' );
+				$vars['shipping_base_region'] = edd_get_option( 'edd_flat_rate_shipping_base_country', 'US' );
 
 				return $vars;
 			} );
-			wp_enqueue_script( 'edd-simple-shipping' );
+			wp_enqueue_script( 'edd-flat-rate-shipping' );
 		}
 
 		$needs_styles = edd_is_purchase_history_page();
@@ -207,8 +207,8 @@ class EDD_Flat_Rate_Shipping {
 			return;
 		}
 
-		wp_register_style( 'edd-simple-shipping-styles', $this->plugin_url . '/assets/css/styles.css', EDD_SIMPLE_SHIPPING_VERSION );
-		wp_enqueue_style( 'edd-simple-shipping-styles' );
+		wp_register_style( 'edd-flat-rate-shipping-styles', $this->plugin_url . '/assets/css/styles.css', EDD_FLAT_RATE_SHIPPING_VERSION );
+		wp_enqueue_style( 'edd-flat-rate-shipping-styles' );
 	}
 
 	/**
@@ -223,10 +223,10 @@ class EDD_Flat_Rate_Shipping {
 
 		// Set filter for plugin's languages directory
 		$lang_dir = $this->plugin_path . '/languages/';
-		$lang_dir = apply_filters( 'edd_simple_shipping_lang_directory', $lang_dir );
+		$lang_dir = apply_filters( 'edd_flat_rate_shipping_lang_directory', $lang_dir );
 
 		// Load the translations
-		load_plugin_textdomain( 'edd-simple-shipping', false, $lang_dir );
+		load_plugin_textdomain( 'edd-flat-rate-shipping', false, $lang_dir );
 
 	}
 
@@ -243,12 +243,12 @@ class EDD_Flat_Rate_Shipping {
 		if( class_exists( 'EDD_Front_End_Submissions' ) ) {
 			$this->is_fes = true;
 			require_once $this->plugin_path . '/includes/integrations/edd-fes.php';
-			$this->fes = new EDD_Simple_Shipping_FES();
+			$this->fes = new EDD_Flat_Rate_Shipping_FES();
 
 
 			if ( ! isset( $this->admin ) ) {
 				require_once $this->plugin_path . '/includes/admin/admin.php';
-				$this->admin = new EDD_Simple_Shipping_Admin();
+				$this->admin = new EDD_Flat_Rate_Shipping_Admin();
 			}
 			add_action( 'fes-order-table-column-title', array( $this->admin, 'shipped_column_header' ), 10 );
 			add_action( 'fes-order-table-column-value', array( $this->admin, 'shipped_column_value' ), 10 );
@@ -257,15 +257,15 @@ class EDD_Flat_Rate_Shipping {
 			add_action( 'edd_toggle_shipped_status',    array( $this, 'frontend_toggle_shipped_status' ) );
 
 			// FES 2.3+ compatibility
-			add_action( 'fes_load_fields_require',  array( $this->fes, 'edd_fes_simple_shipping' ) );
+			add_action( 'fes_load_fields_require',  array( $this->fes, 'edd_fes_flat_rate_shipping' ) );
 
 			// FES < 2.3 compatibility
 			if ( defined( 'fes_plugin_version' ) && version_compare( fes_plugin_version, '2.3', '<' ) ) {
-				add_action( 'fes_custom_post_button',               array( $this->fes, 'edd_fes_simple_shipping_field_button' ) );
-				add_action( 'fes_admin_field_edd_simple_shipping',  array( $this->fes, 'edd_fes_simple_shipping_admin_field' ), 10, 3 );
-				add_filter( 'fes_formbuilder_custom_field',         array( $this->fes, 'edd_fes_simple_shipping_formbuilder_is_custom_field' ), 10, 2 );
-				add_action( 'fes_submit_submission_form_bottom',    array( $this->fes, 'edd_fes_simple_shipping_save_custom_fields' ) );
-				add_action( 'fes_render_field_edd_simple_shipping', array( $this->fes, 'edd_fes_simple_shipping_field' ), 10, 3 );
+				add_action( 'fes_custom_post_button',               array( $this->fes, 'edd_fes_flat_rate_shipping_field_button' ) );
+				add_action( 'fes_admin_field_edd_flat_rate_shipping',  array( $this->fes, 'edd_fes_flat_rate_shipping_admin_field' ), 10, 3 );
+				add_filter( 'fes_formbuilder_custom_field',         array( $this->fes, 'edd_fes_flat_rate_shipping_formbuilder_is_custom_field' ), 10, 2 );
+				add_action( 'fes_submit_submission_form_bottom',    array( $this->fes, 'edd_fes_flat_rate_shipping_save_custom_fields' ) );
+				add_action( 'fes_render_field_edd_flat_rate_shipping', array( $this->fes, 'edd_fes_flat_rate_shipping_field' ), 10, 3 );
 			}
 		}
 
@@ -287,7 +287,7 @@ class EDD_Flat_Rate_Shipping {
 			$enabled = false;
 		}
 
-		return (bool) apply_filters( 'edd_simple_shipping_item_has_shipping', $enabled, $item_id );
+		return (bool) apply_filters( 'edd_flat_rate_shipping_item_has_shipping', $enabled, $item_id );
 	}
 
 
@@ -316,9 +316,9 @@ class EDD_Flat_Rate_Shipping {
 		}
 
 		// Keep this old filter for backwards compatibility.
-		$ret = apply_filters( 'edd_simple_shipping_price_hasa_shipping', $ret, $item_id, $price_id );
+		$ret = apply_filters( 'edd_flat_rate_shipping_price_hasa_shipping', $ret, $item_id, $price_id );
 
-		return (bool) apply_filters( 'edd_simple_shipping_price_has_shipping', $ret, $item_id, $price_id );
+		return (bool) apply_filters( 'edd_flat_rate_shipping_price_has_shipping', $ret, $item_id, $price_id );
 	}
 
 	/**
@@ -384,7 +384,7 @@ class EDD_Flat_Rate_Shipping {
 				}
 			}
 		}
-		return (bool) apply_filters( 'edd_simple_shipping_cart_needs_shipping', $ret );
+		return (bool) apply_filters( 'edd_flat_rate_shipping_cart_needs_shipping', $ret );
 	}
 
 
@@ -400,7 +400,7 @@ class EDD_Flat_Rate_Shipping {
 	 */
 	protected function get_base_region( $download_id = 0 ) {
 
-		$base_region = edd_get_option( 'edd_simple_shipping_base_country' );
+		$base_region = edd_get_option( 'edd_flat_rate_shipping_base_country' );
 		if ( empty( $base_region ) ) {
 			$base_region = edd_get_option( 'base_country' );
 		}
@@ -490,10 +490,10 @@ class EDD_Flat_Rate_Shipping {
 			}
 
 			$has_shipping = false;
-			$fee_label    = __( 'Shipping', 'edd-simple-shipping' );
+			$fee_label    = __( 'Shipping', 'edd-flat-rate-shipping' );
 			if ( ! function_exists( 'edd_get_order_address' ) ) {
 				/* translators: the product name */
-				$fee_label = sprintf( __( '%s Shipping', 'edd-simple-shipping' ), get_the_title( $item['id'] ) );
+				$fee_label = sprintf( __( '%s Shipping', 'edd-flat-rate-shipping' ), get_the_title( $item['id'] ) );
 			}
 			if ( ! empty( $item['fees'] ) ) {
 				foreach ( $item['fees'] as $fee ) {
@@ -508,7 +508,7 @@ class EDD_Flat_Rate_Shipping {
 			$amount = $this->get_price_shipping_cost( $item['id'], $price_id, $region );
 			if ( $amount > 0 && false === $has_shipping ) {
 
-				$id = "simple_shipping_{$item['id']}";
+				$id = "flat_rate_shipping_{$item['id']}";
 				if ( null !== $price_id ) {
 					$id .= "_{$price_id}";
 				}
@@ -518,7 +518,7 @@ class EDD_Flat_Rate_Shipping {
 					'id'          => $id,
 					'download_id' => $item['id'],
 					'price_id'    => $price_id,
-					'no_tax'      => edd_get_option( 'simple_shipping_disable_tax_on_shipping', false ),
+					'no_tax'      => edd_get_option( 'flat_rate_shipping_disable_tax_on_shipping', false ),
 				) );
 			}
 		}
@@ -575,7 +575,7 @@ class EDD_Flat_Rate_Shipping {
 
 		foreach( $fees as $key => $fee ) {
 
-			if( false === strpos( $key, 'simple_shipping' ) ) {
+			if( false === strpos( $key, 'flat_rate_shipping' ) ) {
 				continue;
 			}
 
@@ -663,31 +663,31 @@ class EDD_Flat_Rate_Shipping {
 				// Shipping address is different
 
 				if ( empty( $post_data[ 'shipping_address' ] ) ) {
-					edd_set_error( 'missing_address', __( 'Please enter a shipping address.', 'edd-simple-shipping' ) );
+					edd_set_error( 'missing_address', __( 'Please enter a shipping address.', 'edd-flat-rate-shipping' ) );
 				}
 
 				if ( empty( $post_data[ 'shipping_city' ] ) ) {
-					edd_set_error( 'missing_city', __( 'Please enter a city for shipping.', 'edd-simple-shipping' ) );
+					edd_set_error( 'missing_city', __( 'Please enter a city for shipping.', 'edd-flat-rate-shipping' ) );
 				}
 
 				if ( empty( $post_data[ 'shipping_zip' ] ) ) {
-					edd_set_error( 'missing_zip', __( 'Please enter a zip/postal code for shipping.', 'edd-simple-shipping' ) );
+					edd_set_error( 'missing_zip', __( 'Please enter a zip/postal code for shipping.', 'edd-flat-rate-shipping' ) );
 				}
 
 				if ( empty( $post_data[ 'shipping_country' ] ) ) {
-					edd_set_error( 'missing_country', __( 'Please select your country.', 'edd-simple-shipping' ) );
+					edd_set_error( 'missing_country', __( 'Please select your country.', 'edd-flat-rate-shipping' ) );
 				}
 
 				if ( 'US' == $post_data[ 'shipping_country' ] ) {
 
 					if ( empty( $post_data[ 'shipping_state_us' ] ) ) {
-						edd_set_error( 'missing_state', __( 'Please select your state.', 'edd-simple-shipping' ) );
+						edd_set_error( 'missing_state', __( 'Please select your state.', 'edd-flat-rate-shipping' ) );
 					}
 
 				} elseif ( 'CA' == $post_data[ 'shipping_country' ] ) {
 
 					if ( empty( $post_data[ 'shipping_state_ca' ] ) ) {
-						edd_set_error( 'missing_province', __( 'Please select your province.', 'edd-simple-shipping' ) );
+						edd_set_error( 'missing_province', __( 'Please select your province.', 'edd-flat-rate-shipping' ) );
 					}
 
 				}
@@ -698,27 +698,27 @@ class EDD_Flat_Rate_Shipping {
 
 			// Shipping address is the same as billing
 			if( empty( $post_data['card_address'] ) ) {
-				edd_set_error( 'missing_address', __( 'Please enter a shipping address.', 'edd-simple-shipping' ) );
+				edd_set_error( 'missing_address', __( 'Please enter a shipping address.', 'edd-flat-rate-shipping' ) );
 			}
 
 			if( empty( $post_data['card_city'] ) ) {
-				edd_set_error( 'missing_city', __( 'Please enter a city for shipping.', 'edd-simple-shipping' ) );
+				edd_set_error( 'missing_city', __( 'Please enter a city for shipping.', 'edd-flat-rate-shipping' ) );
 			}
 
 			if( empty( $post_data['card_zip'] ) ) {
-				edd_set_error( 'missing_zip', __( 'Please enter a zip/postal code for shipping.', 'edd-simple-shipping' ) );
+				edd_set_error( 'missing_zip', __( 'Please enter a zip/postal code for shipping.', 'edd-flat-rate-shipping' ) );
 			}
 
 			if( 'US' == $post_data['billing_country'] ) {
 
 				if( empty( $post_data['card_state'] ) ) {
-					edd_set_error( 'missing_state', __( 'Please select your state.', 'edd-simple-shipping' ) );
+					edd_set_error( 'missing_state', __( 'Please select your state.', 'edd-flat-rate-shipping' ) );
 				}
 
 			} elseif( 'CA' == $post_data['billing_country'] ) {
 
 				if( empty( $post_data['card_state'] ) ) {
-					edd_set_error( 'missing_province', __( 'Please select your province.', 'edd-simple-shipping' ) );
+					edd_set_error( 'missing_province', __( 'Please select your province.', 'edd-flat-rate-shipping' ) );
 				}
 
 			}
@@ -841,7 +841,7 @@ class EDD_Flat_Rate_Shipping {
 			return $order_data;
 		}
 
-		$address = edd_simple_shipping_get_order_shipping_address( $payment_id );
+		$address = edd_flat_rate_shipping_get_order_shipping_address( $payment_id );
 		if ( ! $address ) {
 			$order_data['application_context']['shipping_preference'] = 'GET_FROM_FILE';
 
@@ -935,7 +935,7 @@ class EDD_Flat_Rate_Shipping {
 			return false;
 		}
 
-		$needs_shipping = (bool) edd_simple_shipping_get_order_shipping_address( $payment_id );
+		$needs_shipping = (bool) edd_flat_rate_shipping_get_order_shipping_address( $payment_id );
 
 		return apply_filters( 'edd_payment_needs_shipping', $needs_shipping, $payment_id );
 	}
@@ -957,7 +957,7 @@ class EDD_Flat_Rate_Shipping {
 
 		$sections[] = array(
 			'id'       => 'shipping',
-			'label'    => __( 'Shipping', 'easy-simple-shipping' ),
+			'label'    => __( 'Shipping', 'easy-flat-rate-shipping' ),
 			'icon'     => 'admin-multisite',
 			'callback' => array( $this, 'show_shipping_order_section' ),
 		);
@@ -975,7 +975,7 @@ class EDD_Flat_Rate_Shipping {
 	public function show_shipping_order_section( $order ) {
 		remove_action( 'edd_view_order_details_billing_after', array( $this, 'show_shipping_details' ), 10 );
 
-		printf( '<h3 class="hndle">%s</h3>', esc_html__( 'Shipping Address', 'edd-simple-shipping' ) );
+		printf( '<h3 class="hndle">%s</h3>', esc_html__( 'Shipping Address', 'edd-flat-rate-shipping' ) );
 		$this->do_shipping_address_order_details( $order->id );
 	}
 
@@ -1002,7 +1002,7 @@ class EDD_Flat_Rate_Shipping {
 		?>
 		<div id="edd-shipping-details" class="postbox">
 			<h3 class="hndle">
-				<?php esc_html_e( 'Shipping Address', 'edd-simple-shipping' ); ?>
+				<?php esc_html_e( 'Shipping Address', 'edd-flat-rate-shipping' ); ?>
 			</h3>
 			<div class="inside edd-clearfix">
 
@@ -1024,38 +1024,38 @@ class EDD_Flat_Rate_Shipping {
 	 * @return void
 	 */
 	private function do_shipping_address_order_details( $payment_id ) {
-		$address = edd_simple_shipping_get_order_shipping_address( $payment_id );
+		$address = edd_flat_rate_shipping_get_order_shipping_address( $payment_id );
 		$status  = edd_get_payment_meta( $payment_id, '_edd_payment_shipping_status', true );
 		$shipped = $status == '2' ? true : false;
 		?>
 		<div id="edd-order-shipping-address">
 			<div class="order-data-address">
 				<div class="edd-form-group">
-					<label for="edd-payment-shipping-address-0-address" class="order-data-address-line edd-form-group__label"><?php esc_html_e( 'Street Address Line 1:', 'edd-simple-shipping' ); ?></label>
+					<label for="edd-payment-shipping-address-0-address" class="order-data-address-line edd-form-group__label"><?php esc_html_e( 'Street Address Line 1:', 'edd-flat-rate-shipping' ); ?></label>
 					<div class="edd-form-group__control">
 						<input id="edd-payment-shipping-address-0-address" type="text" name="edd-payment-shipping-address[0][address]" value="<?php echo esc_html( $address['address'] ); ?>" class="regular-text edd-form-group__input" />
 					</div>
 				</div>
 				<div class="edd-form-group">
-					<label for="edd-payment-shipping-address-0-address2" class="order-data-address-line edd-form-group__label"><?php esc_html_e( 'Street Address Line 2:', 'edd-simple-shipping' ); ?></label>
+					<label for="edd-payment-shipping-address-0-address2" class="order-data-address-line edd-form-group__label"><?php esc_html_e( 'Street Address Line 2:', 'edd-flat-rate-shipping' ); ?></label>
 					<div class="edd-form-group__control">
 						<input id="edd-payment-shipping-address-0-address2" type="text" name="edd-payment-shipping-address[0][address2]" value="<?php echo esc_html( $address['address2'] ); ?>" class="regular-text edd-form-group__input" />
 					</div>
 				</div>
 				<div class="edd-form-group">
-					<label for="edd-payment-shipping-address-0-city" class="order-data-address-line edd-form-group__label"><?php esc_html_e( 'Address City:', 'edd-simple-shipping' ); ?></label>
+					<label for="edd-payment-shipping-address-0-city" class="order-data-address-line edd-form-group__label"><?php esc_html_e( 'Address City:', 'edd-flat-rate-shipping' ); ?></label>
 					<div class="edd-form-group__control">
 						<input id="edd-payment-shipping-address-0-city" type="text" name="edd-payment-shipping-address[0][city]" value="<?php echo esc_html( $address['city'] ); ?>" class="regular-text edd-form-group__input" />
 					</div>
 				</div>
 				<div class="edd-form-group">
-					<label for="edd-payment-shipping-address-0-zip" class="order-data-address-line edd-form-group__label"><?php esc_html_e( 'ZIP/Postal Code:', 'edd-simple-shipping' ); ?></label>
+					<label for="edd-payment-shipping-address-0-zip" class="order-data-address-line edd-form-group__label"><?php esc_html_e( 'ZIP/Postal Code:', 'edd-flat-rate-shipping' ); ?></label>
 					<div class="edd-form-group__control">
 						<input id="edd-payment-shipping-address-0-zip" type="text" name="edd-payment-shipping-address[0][zip]" value="<?php echo esc_html( $address['zip'] ); ?>" class="regular-text edd-form-group__input" />
 					</div>
 				</div>
 				<div class="edd-form-group">
-					<label for="edd_payment_shipping_address_0_country" class="order-data-address-line edd-form-group__label"><?php esc_html_e( 'Country:', 'edd-simple-shipping' ); ?></label>
+					<label for="edd_payment_shipping_address_0_country" class="order-data-address-line edd-form-group__label"><?php esc_html_e( 'Country:', 'edd-flat-rate-shipping' ); ?></label>
 					<div class="edd-form-group__control">
 					<?php
 						echo EDD()->html->select(
@@ -1077,7 +1077,7 @@ class EDD_Flat_Rate_Shipping {
 					</div>
 				</div>
 				<div class="edd-form-group">
-					<label for="edd_payment_shipping_address_0_state" class="order-data-address-line edd-form-group__label"><?php esc_html_e( 'State/Province:', 'edd-simple-shipping' ); ?></label>
+					<label for="edd_payment_shipping_address_0_state" class="order-data-address-line edd-form-group__label"><?php esc_html_e( 'State/Province:', 'edd-flat-rate-shipping' ); ?></label>
 					<div class="edd-form-group__control">
 						<?php
 						$states = edd_get_shop_states( $address['country'] );
@@ -1106,7 +1106,7 @@ class EDD_Flat_Rate_Shipping {
 					<div class="edd-form-group__control">
 						<input type="checkbox" id="edd-payment-shipped" name="edd-payment-shipped" value="1"<?php checked( $shipped, true ); ?>/>
 						<label for="edd-payment-shipped">
-							<?php esc_html_e( 'Check if this purchase has been shipped.', 'edd-simple-shipping' ); ?>
+							<?php esc_html_e( 'Check if this purchase has been shipped.', 'edd-flat-rate-shipping' ); ?>
 						</label>
 					</div>
 				</div>
@@ -1130,18 +1130,18 @@ class EDD_Flat_Rate_Shipping {
 		// Only modify the email if shipping info needs to be added
 		if( '1' == $shipped ) {
 
-			$shipping_info = edd_simple_shipping_get_order_shipping_address( $payment_id );
+			$shipping_info = edd_flat_rate_shipping_get_order_shipping_address( $payment_id );
 
 			$country_name = edd_get_country_name( $shipping_info['country'] );
 			$state_name   = edd_get_state_name( $shipping_info['country'], $shipping_info['state'] );
 
-			$email .= "<p><strong>" . __( 'Shipping Details:', 'edd-simple-shipping' ) . "</strong></p>";
-			$email .= __( 'Address:', 'edd-simple-shipping' ) . " " . $shipping_info['address'] . "<br/>";
-			$email .= __( 'Address Line 2:', 'edd-simple-shipping' ) . " " . $shipping_info['address2'] . "<br/>";
-			$email .= __( 'City:', 'edd-simple-shipping' ) . " " . $shipping_info['city'] . "<br/>";
-			$email .= __( 'Zip/Postal Code:', 'edd-simple-shipping' ) . " " . $shipping_info['zip'] . "<br/>";
-			$email .= __( 'Country:', 'edd-simple-shipping' ) . " " . $country_name . "<br/>";
-			$email .= __( 'State:', 'edd-simple-shipping' ) . " " . $state_name . "<br/>";
+			$email .= "<p><strong>" . __( 'Shipping Details:', 'edd-flat-rate-shipping' ) . "</strong></p>";
+			$email .= __( 'Address:', 'edd-flat-rate-shipping' ) . " " . $shipping_info['address'] . "<br/>";
+			$email .= __( 'Address Line 2:', 'edd-flat-rate-shipping' ) . " " . $shipping_info['address2'] . "<br/>";
+			$email .= __( 'City:', 'edd-flat-rate-shipping' ) . " " . $shipping_info['city'] . "<br/>";
+			$email .= __( 'Zip/Postal Code:', 'edd-flat-rate-shipping' ) . " " . $shipping_info['zip'] . "<br/>";
+			$email .= __( 'Country:', 'edd-flat-rate-shipping' ) . " " . $country_name . "<br/>";
+			$email .= __( 'State:', 'edd-flat-rate-shipping' ) . " " . $state_name . "<br/>";
 
 		}
 
@@ -1160,7 +1160,7 @@ class EDD_Flat_Rate_Shipping {
 	 */
 	public function payment_receipt_after( $payment, $edd_receipt_args ) {
 
-		$shipping_info = edd_simple_shipping_get_order_shipping_address( $payment->ID );
+		$shipping_info = edd_flat_rate_shipping_get_order_shipping_address( $payment->ID );
 
 		if ( ! $shipping_info ) {
 			return;
@@ -1179,11 +1179,11 @@ class EDD_Flat_Rate_Shipping {
 			'new_status' => $new_status
 		) ) );
 
-		$toggle_text = $shipped == '2' ? __( 'Mark as not shipped', 'edd-simple-shipping' ) : __( 'Mark as shipped', 'edd-simple-shipping' );
+		$toggle_text = $shipped == '2' ? __( 'Mark as not shipped', 'edd-flat-rate-shipping' ) : __( 'Mark as shipped', 'edd-flat-rate-shipping' );
 		$user_info   = edd_get_payment_meta_user_info( $payment->ID );
 
 		echo '<tr>';
-		echo '<td><strong>' . __( 'Shipping Address', 'edd-simple-shipping' ) . '</strong></td>';
+		echo '<td><strong>' . __( 'Shipping Address', 'edd-flat-rate-shipping' ) . '</strong></td>';
 		echo '<td>' . self::format_address( $user_info, $shipping_info ) . '<td>';
 		echo '</tr>';
 
@@ -1191,7 +1191,7 @@ class EDD_Flat_Rate_Shipping {
 
 			echo '<tr>';
 			echo '<td colspan="2">';
-			echo '<a href="' . $toggle_url . '" class="edd-simple-shipping-toggle-status">' . $toggle_text . '</a>';
+			echo '<a href="' . $toggle_url . '" class="edd-flat-rate-shipping-toggle-status">' . $toggle_text . '</a>';
 			echo '</td>';
 			echo '</tr>';
 
@@ -1444,7 +1444,7 @@ class EDD_Flat_Rate_Shipping {
 		?>
 
 		<?php if ( ! empty( $addresses ) ) : ?>
-			<legend for="edd_shipping_addresses"><?php _e( 'Shipping Addresses', 'edd-simple-shipping' ); ?></legend>
+			<legend for="edd_shipping_addresses"><?php _e( 'Shipping Addresses', 'edd-flat-rate-shipping' ); ?></legend>
 			<ul class="edd-profile-shipping-addresses">
 			<?php
 			foreach ( $addresses as $key => $address ) :
@@ -1468,7 +1468,7 @@ class EDD_Flat_Rate_Shipping {
 								'edd-remove-customer-shipping-address'
 							);
 						?>
-						<a href="<?php echo esc_url( $remove_url ); ?>" class="delete"><?php esc_html_e( 'Remove', 'edd-simple-shipping' ); ?></a>
+						<a href="<?php echo esc_url( $remove_url ); ?>" class="delete"><?php esc_html_e( 'Remove', 'edd-flat-rate-shipping' ); ?></a>
 					</span>
 					<br />
 					<?php if ( ! empty( $address['address2'] ) ) : ?>
@@ -1538,11 +1538,11 @@ class EDD_Flat_Rate_Shipping {
 
 			$user          = wp_get_current_user();
 			$user_login    = ! empty( $user->user_login ) ? $user->user_login : 'EDDBot';
-			$customer_note = __( sprintf( 'Shipping address removed by %s', $user_login ), 'edd-simple-shipping' );
+			$customer_note = __( sprintf( 'Shipping address removed by %s', $user_login ), 'edd-flat-rate-shipping' );
 			$customer->add_note( $customer_note );
 
 		} else {
-			edd_set_error( 'profile-remove-shipping_address-failure', __( 'Error removing shipping address from profile. Please try again later.', 'edd-simple-shipping' ) );
+			edd_set_error( 'profile-remove-shipping_address-failure', __( 'Error removing shipping address from profile. Please try again later.', 'edd-flat-rate-shipping' ) );
 			$url = $_GET['redirect'];
 		}
 
@@ -1553,7 +1553,7 @@ class EDD_Flat_Rate_Shipping {
 }
 
 require_once dirname( __FILE__ ) . '/vendor/autoload.php';
-\EDD\ExtensionUtils\v1\ExtensionLoader::loadOrQuit( __FILE__, 'edd_simple_shipping', array(
+\EDD\ExtensionUtils\v1\ExtensionLoader::loadOrQuit( __FILE__, 'edd_flat_rate_shipping', array(
 	'php'                    => '5.3',
 	'easy-digital-downloads' => '2.9',
 ) );
@@ -1564,28 +1564,28 @@ require_once dirname( __FILE__ ) . '/vendor/autoload.php';
  * @since 1.0
  *
  * @access private
- * @return EDD_Simple_Shipping
+ * @return EDD_Flat_Rate_Shipping
  */
-function edd_simple_shipping_load() {
-	return EDD_Simple_Shipping::get_instance();
+function edd_flat_rate_shipping_load() {
+	return EDD_Flat_Rate_Shipping::get_instance();
 }
 
 /**
  * A nice function name to retrieve the instance that's created on plugins loaded
  *
  * @since 2.2.3
- * @return EDD_Simple_Shipping
+ * @return EDD_Flat_Rate_Shipping
  */
-function edd_simple_shipping() {
-	return edd_simple_shipping_load();
+function edd_flat_rate_shipping() {
+	return edd_flat_rate_shipping_load();
 }
 
 /**
- * Installs Simple Shipping.
+ * Installs Flat Rate Shipping.
  */
-function edd_simple_shipping_install() {
+function edd_flat_rate_shipping_install() {
 
-	$current_version = get_option( 'edd_simple_shipping_version' );
+	$current_version = get_option( 'edd_flat_rate_shipping_version' );
 
 	if ( ! $current_version && function_exists( 'edd_set_upgrade_complete' ) ) {
 
@@ -1600,17 +1600,17 @@ function edd_simple_shipping_install() {
 
 	}
 
-	add_option( 'edd_simple_shipping_version', EDD_SIMPLE_SHIPPING_VERSION, '', false );
+	add_option( 'edd_flat_rate_shipping_version', EDD_FLAT_RATE_SHIPPING_VERSION, '', false );
 
 }
 
 /**
- * We don't want to run `edd_simple_shipping_install()` directly in case the requirements
+ * We don't want to run `edd_flat_rate_shipping_install()` directly in case the requirements
  * haven't been met (EDD not active, etc.). So we set a flag on installation, which we'll
  * check for later once the plugin is booted.
  *
- * @see EDD_Simple_Shipping::maybeRunInstall()
+ * @see EDD_Flat_Rate_Shipping::maybeRunInstall()
  */
 register_activation_hook( __FILE__, function() {
-	update_option( 'edd_simple_shipping_run_install', time() );
+	update_option( 'edd_flat_rate_shipping_run_install', time() );
 } );

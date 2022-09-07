@@ -1,0 +1,57 @@
+.edd-tracking-info-email-message {
+	display: block;
+}
+
+#edd-payment-tracking .spinner {
+	vertical-align: top;
+}
+.edd-flat-rate-shipping-tracking-actions {
+	margin-top: 16px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.edd-flat-rate-shipping-tracking-actions .submit {
+	float: none !important;
+	padding-left: 0 !important;
+	flex-grow: 1;
+}
+
+.edd-form-row__column.edd-form-row__column-center {
+	justify-content: center !important;
+}
+
+/* These can be removed when EDD 3.0 is standard. */
+#edd-shipping-details.postbox label {
+	font-weight: 600;
+}
+
+div.edd-custom-price-option-section-content.edd-form-row {
+	display: flex;
+	gap: 12px;
+	padding-right: 0;
+}
+
+.edd-form-row__column {
+	display: inline-flex;
+	flex-direction: column;
+	justify-content: flex-end;
+}
+
+.edd-form-group {
+	margin-bottom: 16px;
+}
+
+.edd-form-group__control {
+	margin-bottom: 8px;
+}
+
+.edd-form-group__control:last-of-type {
+	margin-bottom: 0;
+}
+
+.edd_tracking_ids_wrapper.edd-form-row.edd_repeatable_row {
+	display: flex;
+	justify-content: space-between;
+	gap: 18px;
+}
