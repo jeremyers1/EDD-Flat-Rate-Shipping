@@ -18,7 +18,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Flag for domestic / international shipping
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access protected
 	 */
@@ -27,7 +27,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Flag for whether Frontend Submissions is enabled
 	 *
-	 * @since 2.0
+	 * @since 1.0.0
 	 *
 	 * @access protected
 	 */
@@ -45,7 +45,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Get active object instance
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @static
@@ -81,14 +81,14 @@ class EDD_Flat_Rate_Shipping {
 
 	private function setup_constants() {
 		if ( ! defined( 'EDD_FLAT_RATE_SHIPPING_VERSION' ) ) {
-			define( 'EDD_FLAT_RATE_SHIPPING_VERSION', '2.3.11' );
+			define( 'EDD_FLAT_RATE_SHIPPING_VERSION', '1.0.0' );
 		}
 	}
 
 	/**
 	 * Runs the installer if our flag is set.
 	 *
-	 * @since 2.3.11
+	 * @since 1.0.0
 	 */
 	private function maybeRunInstall() {
 		add_action( 'admin_init', function() {
@@ -130,7 +130,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Run action and filter hooks.
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access protected
 	 * @return void
@@ -163,7 +163,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Register any scripts we need for Flat Rate Shipping
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 * @return void
 	 */
 	public function admin_scripts() {
