@@ -13,7 +13,7 @@ class EDD_Flat_Rate_Shipping_Settings {
 	/**
 	 * Add Flat Rate Shipping settings section
 	 *
-	 * @since 2.2.2
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return array
@@ -26,7 +26,7 @@ class EDD_Flat_Rate_Shipping_Settings {
 	/**
 	 * Add Flat Rate Shipping emails section
 	 *
-	 * @since 2.2.2
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return array
@@ -39,7 +39,7 @@ class EDD_Flat_Rate_Shipping_Settings {
 	/**
 	 * Add Flat Rate Shipping settings
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return array
@@ -84,7 +84,7 @@ class EDD_Flat_Rate_Shipping_Settings {
 			)
 		);
 
-		if ( version_compare( EDD_VERSION, 2.5, '>=' ) ) {
+		if ( version_compare( EDD_VERSION, 3.0, '>=' ) ) {
 			$flat_rate_shipping_settings = array( 'edd-flat-rate-shipping-settings' => $flat_rate_shipping_settings );
 		}
 
@@ -94,7 +94,7 @@ class EDD_Flat_Rate_Shipping_Settings {
 	/**
 	 * Display the email settings for Flat Rate Shipping
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 * @param $settings
 	 *
 	 * @return array
@@ -134,7 +134,7 @@ class EDD_Flat_Rate_Shipping_Settings {
 			),
 		);
 
-		if ( version_compare( EDD_VERSION, 2.5, '>=' ) ) {
+		if ( version_compare( EDD_VERSION, 3.0, '>=' ) ) {
 			$flat_rate_shipping_settings = array( 'edd-flat-rate-shipping-emails' => $flat_rate_shipping_settings );
 		}
 
