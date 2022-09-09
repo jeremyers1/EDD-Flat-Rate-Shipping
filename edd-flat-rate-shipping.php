@@ -158,16 +158,6 @@ class EDD_Flat_Rate_Shipping {
 		}
 
 		$this->plugins_check();
-
-		// auto updater
-		// @todo The `elseif` can be removed once EDD minimum is 2.11.4.
-		if ( class_exists( '\\EDD\\Extensions\\ExtensionRegistry' ) ) {
-			add_action( 'edd_extension_license_init', function( \EDD\Extensions\ExtensionRegistry $registry ) {
-				$registry->addExtension( __FILE__, 'Flat Rate Shipping', 33730, EDD_FLAT_RATE_SHIPPING_VERSION, 'edd_flat_rate_shipping_license_key' );
-			} );
-		} elseif ( class_exists( 'EDD_License' ) ) {
-			new EDD_License( __FILE__, 'Flat Rate Shipping', EDD_FLAT_RATE_SHIPPING_VERSION, 'Easy Digital Downloads', 'edd_flat_rate_shipping_license_key', null, 33730 );
-		}
 	}
 
 	/**
