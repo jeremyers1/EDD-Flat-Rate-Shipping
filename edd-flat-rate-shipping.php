@@ -109,7 +109,6 @@ class EDD_Flat_Rate_Shipping {
 	}
 
 	public function actions() {
-		add_action( 'init',                                  array( $this, 'textdomain' ) );
 		add_action( 'init',                                  array( $this, 'apply_shipping_fees' ) );
 		add_action( 'wp_ajax_edd_get_shipping_rate',         array( $this, 'ajax_shipping_rate' ) );
 		add_action( 'wp_ajax_nopriv_edd_get_shipping_rate',  array( $this, 'ajax_shipping_rate' ) );
@@ -199,25 +198,6 @@ class EDD_Flat_Rate_Shipping {
 
 		wp_register_style( 'edd-flat-rate-shipping-styles', $this->plugin_url . '/assets/css/styles.css', EDD_FLAT_RATE_SHIPPING_VERSION );
 		wp_enqueue_style( 'edd-flat-rate-shipping-styles' );
-	}
-
-	/**
-	 * Load plugin text domain
-	 *
-	 * @since 1.0
-	 *
-	 * @access private
-	 * @return void
-	 */
-	public function textdomain() {
-
-		// Set filter for plugin's languages directory
-		$lang_dir = $this->plugin_path . '/languages/';
-		$lang_dir = apply_filters( 'edd_flat_rate_shipping_lang_directory', $lang_dir );
-
-		// Load the translations
-		load_plugin_textdomain( 'edd-flat-rate-shipping', false, $lang_dir );
-
 	}
 
 	/**
