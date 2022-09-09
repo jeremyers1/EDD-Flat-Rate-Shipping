@@ -1,3 +1,8 @@
+.edd-flat-rate-settings-country input[type=number] {
+	width: 80px;
+	padding: 0 0 0 8px;
+}
+
 .edd-tracking-info-email-message {
 	display: block;
 }

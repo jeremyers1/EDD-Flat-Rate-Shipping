@@ -61,6 +61,22 @@ class EDD_Flat_Rate_Shipping_Settings {
 				'options' => edd_get_country_list()
 			),
 			array(
+				'id' => 'edd_flat_rate_shipping_domestic_rate',
+				'name' => __( 'Domestic Rate', 'edd-flat-rate-shipping'),
+				'desc' => __( 'Enter amount for flat rate domestic shipping', 'edd-flat-rate-shipping'),
+				'type' => 'number',
+				'class' => 'edd-flat-rate-settings-country',
+				'step' => '0.01',
+			),
+			array(
+				'id' => 'edd_flat_rate_shipping_international_rate',
+				'name' => __( 'International Rate', 'edd-flat-rate-shipping'),
+				'desc' => __( 'Enter amount for flat rate international shipping', 'edd-flat-rate-shipping'),
+				'type' => 'number',
+				'class' => 'edd-flat-rate-settings-country',
+				'step' => '0.01',
+			),
+			array(
 				'id'   => 'flat_rate_shipping_disable_tax_on_shipping',
 				'name' => __( 'Disable tax on shipping fees', 'edd-flat-rate-shipping' ),
 				'desc' => __( 'By default, Flat Rate Shipping charges tax on shipping costs. Check this box to avoid charging tax on shipping costs.', 'edd-flat-rate-shipping' ),
