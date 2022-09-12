@@ -103,12 +103,12 @@ function edd_privacy_flat_rate_shipping_addresses_exporter( $email_address = '',
  * Adds the shipping address to the order data exporter.
  *
  * @param array   $data_points The array of data being exported.
- * @param object  $payment     In EDD 3.0, \EDD\Orders\Order; in 2.x, \EDD_Payment
+ * @param object  $payment     In EDD 3.0, \EDD\Orders\Order
  *
  * @return array
  */
 function edd_flat_rate_shipping_order_include_shipping_address_in_export( $data_points, $payment ) {
-	$payment_id       = $payment instanceof \EDD\Orders\Order ? $payment->id : $payment->ID;
+	$payment_id       = $payment->id;
 	$shipping_address = edd_flat_rate_shipping_get_order_shipping_address( $payment_id );
 
 	if ( $shipping_address ) {
