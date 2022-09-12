@@ -827,9 +827,8 @@ class EDD_Flat_Rate_Shipping {
 
 	/**
 	 * Shows the shipping address form in the order details.
-	 * Split into a separate function for EDD 3.0 to remove unneeded markup.
-	 *
-	 * @since 2.3.9
+	 * 
+	 * @since 1.0.0
 	 * @param int $payment_id The payment ID.
 	 * @return void
 	 */
@@ -929,7 +928,7 @@ class EDD_Flat_Rate_Shipping {
 	 * Add the shipping info to the admin sales notice
 	 *
 	 * @access      public
-	 * @since       1.1
+	 * @since       1.0.0
 	 * @return      string
 	 */
 	public function admin_sales_notice( $email = '', $payment_id = 0, $payment_data = array() ) {
@@ -956,13 +955,12 @@ class EDD_Flat_Rate_Shipping {
 		}
 
 		return $email;
-
 	}
 
 	/**
 	 * Add the shipping address to the end of the payment receipt.
 	 *
-	 * @since 2.0
+	 * @since 1.0.0
 	 *
 	 * @param object $payment
 	 * @param array $edd_receipt_args
@@ -1019,7 +1017,7 @@ class EDD_Flat_Rate_Shipping {
 	 * (5) City, (6) State (7) ZIP
 	 * (8) Country
 	 *
-	 * @since 2.0
+	 * @since 1.0.0
 	 *
 	 * @param array $user_info
 	 * @param array $address
@@ -1048,7 +1046,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Mark a payment as shipped.
 	 *
-	 * @since 2.0
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
@@ -1074,7 +1072,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Add a shipping address to the customer meta
 	 *
-	 * @since 2.2.3
+	 * @since 1.0.0
 	 * @param int   $customer_id
 	 * @param array $address
 	 *
@@ -1102,22 +1100,6 @@ class EDD_Flat_Rate_Shipping {
 				$address
 			);
 		}
-
-		// Otherwise, handle the address for 2.x.
-		global $wpdb;
-
-		ksort( $address );
-
-		// See if we have an existing address.
-		$serialized_address = serialize( $address );
-		$address_query      = $wpdb->prepare( "SELECT meta_id FROM $wpdb->customermeta WHERE customer_id = %d AND meta_key ='shipping_address' AND meta_value = %s LIMIT 1", $customer->id, $serialized_address );
-		$address_exists     = $wpdb->get_var( $address_query );
-
-		if ( ! empty( $address_exists ) ) {
-			return false;
-		}
-
-		return $customer->add_meta( 'shipping_address', $address );
 	}
 
 	/**
