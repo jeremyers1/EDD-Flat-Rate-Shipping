@@ -11,6 +11,16 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+/**
+ * for testing purposes 
+ */ 
+function console_log($data) {
+	if (is_array($data))
+			$data= implode(',', $data);
+
+	echo "<script>console.log('Debug: " . $data . "' );</script>";
+}
+
 class EDD_Flat_Rate_Shipping {
 
 	private static $instance;
@@ -244,18 +254,13 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Determine if a product has snipping enabled
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access protected
 	 * @return bool
 	 */
-	protected function item_has_shipping( $item_id = 0, $price_id = 0 ) {
-		$enabled          = get_post_meta( $item_id, '_edd_enable_shipping', true );
-		$variable_pricing = edd_has_variable_prices( $item_id );
-
-		if( $variable_pricing && ! $this->price_has_shipping( $item_id, $price_id ) ) {
-			$enabled = false;
-		}
+	protected function item_has_shipping( $item_id = 0 ) {
+		$enabled = get_post_meta( $item_id, '_edd_enable_shipping', true );
 
 		return (bool) apply_filters( 'edd_flat_rate_shipping_item_has_shipping', $enabled, $item_id );
 	}
