@@ -157,6 +157,8 @@ class EDD_Flat_Rate_Shipping {
 			require_once $this->plugin_path . '/includes/admin/metabox.php';
 		}
 
+		/** STOPPED HERE */
+
 		// Load all the settings into local variables so we can use them.
 		$this->settings = new EDD_Flat_Rate_Shipping_Settings();
 		$this->tracking = new EDD_Flat_Rate_Shipping_Tracking();
@@ -1441,6 +1443,20 @@ require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 	'easy-digital-downloads' => '3.0',
 ) );  
 
+/**
+ * Checks to make sure EDD Simple Shipping is not active
+ *
+ * @since 1.0.0
+ * @return void
+*/
+function edd_simple_shipping_active() {
+
+	if( is_plugin_active( 'edd-simple-shipping/edd-simple-shipping.php' ) ) {
+				printf(
+					'<div class="error"><p>' . __( '<strong>WARNING: Easy Digital Downloads - Flat Rate Shipping</strong> cannot be active at the same time as <strong>Easy Digital Downloads - Simple Shipping</strong>. Please deactivate one or the other.', 'edd-flat-rate-shipping' ) . '</p></div>' );
+	}
+}
+add_action( 'admin_notices', 'edd_simple_shipping_active' );
 
 /**
  * Get everything running
