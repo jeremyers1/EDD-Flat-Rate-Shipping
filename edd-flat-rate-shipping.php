@@ -1205,7 +1205,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Output the user shipping addresses on the profile editor
 	 *
-	 * @since 2.2.3
+	 * @since 1.0.0
 	 * @return void
 	 */
 	public function profile_editor_addresses() {
@@ -1285,7 +1285,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Process the 'remove' URL on the profile editor when customers wish to remove a shipping address
 	 *
-	 * @since  2.2.3
+	 * @since  1.0.0
 	 * @return void
 	 */
 	function process_profile_editor_remove_address() {
@@ -1357,7 +1357,7 @@ add_action( 'admin_notices', 'edd_simple_shipping_active' );
 /**
  * Get everything running
  *
- * @since 1.0
+ * @since 1.0.0
  *
  * @access private
  * @return EDD_Flat_Rate_Shipping
@@ -1369,7 +1369,7 @@ function edd_flat_rate_shipping_load() {
 /**
  * A nice function name to retrieve the instance that's created on plugins loaded
  *
- * @since 2.2.3
+ * @since 1.0.0
  * @return EDD_Flat_Rate_Shipping
  */
 function edd_flat_rate_shipping() {
@@ -1380,7 +1380,6 @@ function edd_flat_rate_shipping() {
  * Installs Flat Rate Shipping.
  */
 function edd_flat_rate_shipping_install() {
-
 	$current_version = get_option( 'edd_flat_rate_shipping_version' );
 
 	if ( ! $current_version && function_exists( 'edd_set_upgrade_complete' ) ) {
@@ -1393,11 +1392,9 @@ function edd_flat_rate_shipping_install() {
 		foreach ( $upgrade_routines as $upgrade ) {
 			edd_set_upgrade_complete( $upgrade );
 		}
-
 	}
 
 	add_option( 'edd_flat_rate_shipping_version', EDD_FLAT_RATE_SHIPPING_VERSION, '', false );
-
 }
 
 /**
