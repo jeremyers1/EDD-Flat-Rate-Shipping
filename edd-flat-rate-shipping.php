@@ -157,8 +157,6 @@ class EDD_Flat_Rate_Shipping {
 			require_once $this->plugin_path . '/includes/admin/metabox.php';
 		}
 
-		/** STOPPED HERE */
-
 		// Load all the settings into local variables so we can use them.
 		$this->settings = new EDD_Flat_Rate_Shipping_Settings();
 		$this->tracking = new EDD_Flat_Rate_Shipping_Tracking();
@@ -187,7 +185,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Register any styles we need for Flat Rate Shipping
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 * @return void
 	 */
 	public function enqueue_styles() {
@@ -214,7 +212,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Determine if dependent plugins are loaded and set flags appropriately
 	 *
-	 * @since 2.0
+	 * @since 1.0.0
 	 *
 	 * @access private
 	 * @return void
@@ -239,17 +237,7 @@ class EDD_Flat_Rate_Shipping {
 
 			// FES 2.3+ compatibility
 			add_action( 'fes_load_fields_require',  array( $this->fes, 'edd_fes_flat_rate_shipping' ) );
-
-			// FES < 2.3 compatibility
-			if ( defined( 'fes_plugin_version' ) && version_compare( fes_plugin_version, '2.3', '<' ) ) {
-				add_action( 'fes_custom_post_button',               array( $this->fes, 'edd_fes_flat_rate_shipping_field_button' ) );
-				add_action( 'fes_admin_field_edd_flat_rate_shipping',  array( $this->fes, 'edd_fes_flat_rate_shipping_admin_field' ), 10, 3 );
-				add_filter( 'fes_formbuilder_custom_field',         array( $this->fes, 'edd_fes_flat_rate_shipping_formbuilder_is_custom_field' ), 10, 2 );
-				add_action( 'fes_submit_submission_form_bottom',    array( $this->fes, 'edd_fes_flat_rate_shipping_save_custom_fields' ) );
-				add_action( 'fes_render_field_edd_flat_rate_shipping', array( $this->fes, 'edd_fes_flat_rate_shipping_field' ), 10, 3 );
-			}
 		}
-
 	}
 
 	/**
