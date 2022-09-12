@@ -18,7 +18,7 @@ class EDD_Flat_Rate_Shipping_Admin {
 	/**
 	 * Add a shipped status column to Payment History
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return array
@@ -34,7 +34,7 @@ class EDD_Flat_Rate_Shipping_Admin {
 	/**
 	 * Make the Shipped? column sortable
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return array
@@ -47,7 +47,7 @@ class EDD_Flat_Rate_Shipping_Admin {
 	/**
 	 * Sort payment history by shipped status
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return array
@@ -68,7 +68,7 @@ class EDD_Flat_Rate_Shipping_Admin {
 	/**
 	 * Display the shipped status
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return string
@@ -98,7 +98,7 @@ class EDD_Flat_Rate_Shipping_Admin {
 	/**
 	 * Register the bulk action for marking payments as Shipped
 	 *
-	 * @since 1.5
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return array
@@ -111,7 +111,7 @@ class EDD_Flat_Rate_Shipping_Admin {
 	/**
 	 * Mark payments as shipped in bulk
 	 *
-	 * @since 1.5
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return array
@@ -125,7 +125,7 @@ class EDD_Flat_Rate_Shipping_Admin {
 	/**
 	 * Add the shipped status column header
 	 *
-	 * @since 2.0
+	 * @since 1.0.0
 	 *
 	 * @param object $order
 	 * @return void
@@ -137,7 +137,7 @@ class EDD_Flat_Rate_Shipping_Admin {
 	/**
 	 * Add the shipped status column header
 	 *
-	 * @since 2.0
+	 * @since 1.0.0
 	 *
 	 * @param object $order
 	 * @return void
@@ -177,7 +177,7 @@ class EDD_Flat_Rate_Shipping_Admin {
 	 * Add the export unshipped orders box to the export screen
 	 *
 	 * @access      public
-	 * @since       1.2
+	 * @since       1.0.0
 	 * @return      void
 	 */
 	public function show_export_options() {
@@ -196,7 +196,7 @@ class EDD_Flat_Rate_Shipping_Admin {
 	 * Trigger the CSV export
 	 *
 	 * @access      public
-	 * @since       1.2
+	 * @since       1.0.0
 	 * @return      void
 	 */
 	public function do_export() {
@@ -211,7 +211,7 @@ class EDD_Flat_Rate_Shipping_Admin {
 	/**
 	 * Adds "Shipping" as an address label in EDD 3.0.
 	 *
-	 * @since 2.3.9
+	 * @since 1.0.0
 	 * @param array $labels The array of address labels.
 	 * @return array
 	 */
