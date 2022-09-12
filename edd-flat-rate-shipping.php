@@ -155,7 +155,6 @@ class EDD_Flat_Rate_Shipping {
 		if ( is_admin() ) {
 			require_once $this->plugin_path . '/includes/admin/admin.php';
 			require_once $this->plugin_path . '/includes/admin/metabox.php';
-			require_once $this->plugin_path . '/includes/admin/upgrades.php';
 		}
 
 		// Load all the settings into local variables so we can use them.
