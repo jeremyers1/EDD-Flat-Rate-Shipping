@@ -124,7 +124,6 @@ class EDD_Flat_Rate_Shipping {
 		add_action( 'wp_ajax_nopriv_edd_get_shipping_rate',  array( $this, 'ajax_shipping_rate' ) );
 		add_action( 'edd_purchase_form_after_cc_form',       array( $this, 'address_fields' ), 999 );
 		add_action( 'edd_checkout_error_checks',             array( $this, 'error_checks' ), 10, 2 );
-		add_action( 'edd_view_order_details_billing_after',  array( $this, 'show_shipping_details' ), 10 );
 		add_action( 'edd_insert_payment',                    array( $this, 'set_as_not_shipped' ), 10, 2 );
 		add_action( 'edd_insert_payment',                    array( $this, 'add_shipping_address_to_order' ), 10, 2 );
 		add_action( 'edd_edit_payment_bottom',               array( $this, 'edit_payment_option' ) );
@@ -303,7 +302,7 @@ class EDD_Flat_Rate_Shipping {
 	 *
 	 * This is used for determining if customer should be charged domestic or international shipping
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access protected
 	 * @return string
@@ -336,7 +335,7 @@ class EDD_Flat_Rate_Shipping {
 	 *
 	 * This fires when the customer changes the country they are shipping to
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access private
 	 * @return void
@@ -358,11 +357,10 @@ class EDD_Flat_Rate_Shipping {
 		);
 	}
 
-
 	/**
 	 * Apply the shipping fees to the cart
 	 *
-	 * @since 1.0.x
+	 * @since 1.0.0
 	 *
 	 * @access private
 	 * @return void
@@ -401,7 +399,7 @@ class EDD_Flat_Rate_Shipping {
 	 * Gets the shipping country: first from AJAX, then stored in user account,
 	 * then base shipping country as fallback.
 	 *
-	 * @since 2.4
+	 * @since 1.0.0
 	 * @return string
 	 */
 	private function get_shipping_country() {
@@ -434,7 +432,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Removes all shipping fees from the cart
 	 *
-	 * @since 2.1
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return void
@@ -447,40 +445,33 @@ class EDD_Flat_Rate_Shipping {
 		}
 
 		foreach( $fees as $key => $fee ) {
-
 			if( false === strpos( $key, 'flat_rate_shipping' ) ) {
 				continue;
 			}
-
 			unset( $fees[ $key ] );
-
 		}
 
 		EDD()->session->set( 'edd_cart_fees', $fees );
-
 	}
-
 
 	/**
 	 * Determine if the shipping fields should be displayed
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access protected
 	 * @return bool
 	 */
 	protected function needs_shipping_fields() {
 		return $this->cart_needs_shipping();
-
 	}
-
 
 	/**
 	 * Determine if the current payment method has billing fields
 	 *
 	 * If no billing fields are present, the shipping fields are always displayed
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access protected
 	 * @return bool
@@ -499,7 +490,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Shipping info fields
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return void
@@ -516,7 +507,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Perform error checks during checkout
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return void
@@ -562,13 +553,9 @@ class EDD_Flat_Rate_Shipping {
 					if ( empty( $post_data[ 'shipping_state_ca' ] ) ) {
 						edd_set_error( 'missing_province', __( 'Please select your province.', 'edd-flat-rate-shipping' ) );
 					}
-
 				}
-
 			}
-
 		} else {
-
 			// Shipping address is the same as billing
 			if( empty( $post_data['card_address'] ) ) {
 				edd_set_error( 'missing_address', __( 'Please enter a shipping address.', 'edd-flat-rate-shipping' ) );
@@ -583,28 +570,22 @@ class EDD_Flat_Rate_Shipping {
 			}
 
 			if( 'US' == $post_data['billing_country'] ) {
-
 				if( empty( $post_data['card_state'] ) ) {
 					edd_set_error( 'missing_state', __( 'Please select your state.', 'edd-flat-rate-shipping' ) );
 				}
 
 			} elseif( 'CA' == $post_data['billing_country'] ) {
-
 				if( empty( $post_data['card_state'] ) ) {
 					edd_set_error( 'missing_province', __( 'Please select your province.', 'edd-flat-rate-shipping' ) );
 				}
-
 			}
-
 		}
-
 	}
-
 
 	/**
 	 * Attach our shipping info to the payment gateway data
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return array
@@ -662,18 +643,15 @@ class EDD_Flat_Rate_Shipping {
 		}
 
 		$purchase_data['user_info']['shipping_info'] = $shipping_info;
-
 		return $purchase_data;
-
 	}
-
 
 	/**
 	 * Sets up the shipping details for PayPal
 	 *
 	 * This makes it possible to use the Print Shipping Label feature in PayPal
 	 *
-	 * @since 1.1
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return array
@@ -694,16 +672,14 @@ class EDD_Flat_Rate_Shipping {
 		$paypal_args['country']     = $shipping_info['country'];
 		$paypal_args['zip']         = $shipping_info['zip'];
 
-
 		return $paypal_args;
-
 	}
 
 	/**
 	 * Adds shipping address to PayPal Commerce API request.
 	 * @link https://developer.paypal.com/docs/api/orders/v2/#definition-order_application_context
 	 *
-	 * @since 2.3.10
+	 * @since 1.0.0
 	 * @param array $order_data     The array of data sent to the PayPal API.
 	 * @param array $purchase_data  The array of purchase data.
 	 * @param int   $payment_id     The order/payment ID.
@@ -744,7 +720,7 @@ class EDD_Flat_Rate_Shipping {
 	 *
 	 * This is so that we can grab all purchases in need of being shipped
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access public
 	 * @return void
@@ -763,9 +739,8 @@ class EDD_Flat_Rate_Shipping {
 
 	/**
 	 * Adds the shipping address to the order addresses table (EDD 3.0 only).
-	 * In EDD 2.x, the shipping address is stored in the payment meta.
 	 *
-	 * @since 2.3.9
+	 * @since 1.0.0
 	 * @param int   $payment_id   The payment ID.
 	 * @param array $payment_data The array of payment data.
 	 * @return void
@@ -799,7 +774,7 @@ class EDD_Flat_Rate_Shipping {
 	 * Determines if a payment needs shipping.
 	 * @param int $payment_id
 	 *
-	 * @since 2.2.3
+	 * @since 1.0.0
 	 * @return bool
 	 */
 	public function payment_needs_shipping( $payment_id = 0 ) {
@@ -816,7 +791,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Adds the shipping details as an order section in EDD 3.0.
 	 *
-	 * @since 2.3.9
+	 * @since 1.0.0
 	 * @param array  $sections The array of order sections.
 	 * @param object $order    The order object.
 	 * @return array
@@ -841,51 +816,13 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Shows the shipping details in EDD 3.0.
 	 *
-	 * @since 2.3.9
+	 * @since 1.0.0
 	 * @param object $order The order object.
 	 * @return void
 	 */
 	public function show_shipping_order_section( $order ) {
-		remove_action( 'edd_view_order_details_billing_after', array( $this, 'show_shipping_details' ), 10 );
-
 		printf( '<h3 class="hndle">%s</h3>', esc_html__( 'Shipping Address', 'edd-flat-rate-shipping' ) );
 		$this->do_shipping_address_order_details( $order->id );
-	}
-
-	/**
-	 * Display shipping details in order details for EDD 2.x.
-	 *
-	 * @since 1.0
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function show_shipping_details( $payment_id = 0 ) {
-
-		if ( empty( $payment_id ) ) {
-			$payment_id = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
-		}
-
-		$needs_shipping = $this->payment_needs_shipping( $payment_id );
-
-		if ( ! $needs_shipping ) {
-			return;
-		}
-
-		?>
-		<div id="edd-shipping-details" class="postbox">
-			<h3 class="hndle">
-				<?php esc_html_e( 'Shipping Address', 'edd-flat-rate-shipping' ); ?>
-			</h3>
-			<div class="inside edd-clearfix">
-
-				<?php $this->do_shipping_address_order_details( $payment_id ); ?>
-
-				<?php do_action( 'edd_payment_shipping_details', $payment_id ); ?>
-
-			</div><!-- /.inside -->
-		</div><!-- /#edd-shipping-details -->
-		<?php
 	}
 
 	/**
