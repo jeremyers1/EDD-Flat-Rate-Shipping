@@ -1133,7 +1133,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Get a specific customer shipping address
 	 *
-	 * @since 2.2.3
+	 * @since 1.0.0
 	 * @param int $customer_id The customer ID.
 	 * @param int $address_key In EDD 3.0, this is the customer address ID; in 2.x, it's an array key.
 	 *
@@ -1167,7 +1167,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Get all the customer shipping addresses
 	 *
-	 * @since 2.2.3
+	 * @since 1.0.0
 	 * @param int $customer_id
 	 *
 	 * @return array
@@ -1178,8 +1178,6 @@ class EDD_Flat_Rate_Shipping {
 			return array();
 		}
 
-		// In EDD 3.0, get the customer addresses from the database table.
-		if ( function_exists( 'edd_get_customer_addresses' ) ) {
 			$addresses = edd_get_customer_addresses(
 				array(
 					'customer_id' => $customer->id,
@@ -1200,12 +1198,8 @@ class EDD_Flat_Rate_Shipping {
 						'country'  => $address->country,
 					);
 				}
-
-				return $addresses_to_return;
-			}
+			return $addresses_to_return;
 		}
-
-		return $customer->get_meta( 'shipping_address', false );
 	}
 
 	/**
