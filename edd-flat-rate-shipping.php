@@ -342,7 +342,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Determine if shipping costs need to be calculated for the cart
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @access protected
 	 * @return bool
@@ -352,13 +352,13 @@ class EDD_Flat_Rate_Shipping {
 		$ret = false;
 		if( is_array( $cart_contents ) ) {
 			foreach( $cart_contents as $item ) {
-				$price_id = isset( $item['options']['price_id'] ) ? (int) $item['options']['price_id'] : null;
-				if( $this->item_has_shipping( $item['id'], $price_id ) ) {
+				if( $this->item_has_shipping( $item['id'] ) ) {
 					$ret = true;
 					break;
 				}
 			}
 		}
+
 		return (bool) apply_filters( 'edd_flat_rate_shipping_cart_needs_shipping', $ret );
 	}
 
@@ -456,7 +456,7 @@ class EDD_Flat_Rate_Shipping {
 
 			$price_id = isset( $item['item_number']['options']['price_id'] ) ? (int) $item['item_number']['options']['price_id'] : null;
 
-			if ( ! $this->item_has_shipping( $item['id'], $price_id ) ) {
+			if ( ! $this->item_has_shipping( $item['id'] ) ) {
 				continue;
 			}
 
