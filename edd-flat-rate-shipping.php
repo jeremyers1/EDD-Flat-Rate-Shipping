@@ -265,37 +265,6 @@ class EDD_Flat_Rate_Shipping {
 		return (bool) apply_filters( 'edd_flat_rate_shipping_item_has_shipping', $enabled, $item_id );
 	}
 
-
-	/**
-	 * Determine if a price option has snipping enabled
-	 *
-	 * @since 1.0
-	 *
-	 * @access protected
-	 * @return bool
-	 */
-	protected function price_has_shipping( $item_id = 0, $price_id = 0 ) {
-		$prices = edd_get_variable_prices( $item_id );
-		$ret    = false;
-
-		// Backwards compatibility checks
-		$has_shipping = isset( $prices[ $price_id ]['shipping'] ) ? $prices[ $price_id ]['shipping'] : false;
-		if ( false !== $has_shipping && ! is_array( $has_shipping ) ) {
-			$ret = true;
-		} elseif ( is_array( $has_shipping ) ) {
-			$domestic = $has_shipping['domestic'];
-			$international = $has_shipping['international'];
-
-			// If the price has either domestic or international prices, we have shipping.
-			$ret = ( ! empty( $domestic ) || ! empty( $international ) ) ? true : false;
-		}
-
-		// Keep this old filter for backwards compatibility.
-		$ret = apply_filters( 'edd_flat_rate_shipping_price_hasa_shipping', $ret, $item_id, $price_id );
-
-		return (bool) apply_filters( 'edd_flat_rate_shipping_price_has_shipping', $ret, $item_id, $price_id );
-	}
-
 	/**
 	 * Get the shipping cost for a specific download and/or price ID.
 	 *
