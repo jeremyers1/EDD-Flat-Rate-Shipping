@@ -1105,7 +1105,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Remove a specific customer shipping address
 	 *
-	 * @since 2.2.3
+	 * @since 1.0.0
 	 * @param int  $customer_id
 	 * @param bool $address_key
 	 *
@@ -1127,12 +1127,7 @@ class EDD_Flat_Rate_Shipping {
 			return false;
 		}
 
-		// In EDD 3.0, delete the address from the customer addresses table.
-		if ( function_exists( 'edd_delete_customer_address' ) ) {
-			return edd_delete_customer_address( $address_key );
-		}
-
-		return $customer->delete_meta( 'shipping_address', $address );
+		return edd_delete_customer_address( $address_key );
 	}
 
 	/**
