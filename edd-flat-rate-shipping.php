@@ -299,44 +299,21 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Get the shipping cost for a specific download and/or price ID.
 	 *
-	 * @since 2.2.3
-	 * @param int    $download_id The Download ID to look up.
-	 * @param null   $price_id    The Price ID to look up.
+	 * @since 1.0.0
 	 * @param string $region      The region to pull for (domestic or international).
 	 *
 	 * @return float
 	 */
-	public function get_price_shipping_cost( $download_id = 0, $price_id = null, $region = 'domestic' ) {
+	public function get_flat_rate_shipping_cost( $region = 'domestic' ) {
 		$amount = 0;
 
-		if ( ! is_numeric( $price_id ) ) {
-			$amount = get_post_meta( $download_id, "_edd_shipping_{$region}", true );
+		if ( $region === 'domestic' ) {
+			$amount = edd_get_option( 'edd_flat_rate_shipping_domestic_rate' );
 		} else {
-			$download = new EDD_Download( $download_id );
-			if ( $download->has_variable_prices() ) {
-				$prices = $download->get_prices();
-				foreach ( $prices as $key => $price ) {
-
-					// If it's not the right price ID, move along.
-					if ( (int) $key !== (int) $price_id ) {
-						continue;
-					}
-
-					if ( isset( $price['shipping'] ) && is_array( $price['shipping'] ) ) {
-						// If the region requested isn't set, continue;
-						if ( ! isset( $price['shipping'][ $region ] ) ) {
-							continue;
-						}
-
-						$amount = $price['shipping'][ $region ];
-					} elseif ( isset( $price['shipping'] ) ) {
-						$amount = get_post_meta( $download_id, "_edd_shipping_{$region}", true );
-					}
-				}
-			}
+			$amount = edd_get_option( 'edd_flat_rate_shipping_international_rate' );
 		}
 
-		return apply_filters( 'edd_shipping_variable_price_cost', (float) $amount, $download_id, $price_id, $region );
+		return apply_filters( 'edd_shipping_variable_price_cost', (float) $amount, $region );
 	}
 
 	/**
@@ -427,7 +404,7 @@ class EDD_Flat_Rate_Shipping {
 	/**
 	 * Apply the shipping fees to the cart
 	 *
-	 * @since 1.0
+	 * @since 1.0.x
 	 *
 	 * @access private
 	 * @return void
@@ -440,62 +417,25 @@ class EDD_Flat_Rate_Shipping {
 			return;
 		}
 
-		$cart_contents = edd_get_cart_content_details();
-
-		if ( ! is_array( $cart_contents ) ) {
-			return;
-		}
-
 		$country = $this->get_shipping_country();
 		if ( ! empty( $country ) && $country !== $this->get_base_region() ) {
 			$this->is_domestic = false;
 		}
+		if ( $this->is_fes && $country !== $this->get_base_region() ) {
+			$this->is_domestic = false;
+		}
 
 		$amount = 0.00;
-		foreach ( $cart_contents as $key => $item ) {
-
-			$price_id = isset( $item['item_number']['options']['price_id'] ) ? (int) $item['item_number']['options']['price_id'] : null;
-
-			if ( ! $this->item_has_shipping( $item['id'] ) ) {
-				continue;
-			}
-
-			if ( $this->is_fes && $country !== $this->get_base_region( $item['id'] ) ) {
-				$this->is_domestic = false;
-			}
-
-			$has_shipping = false;
-			$fee_label    = __( 'Shipping', 'edd-flat-rate-shipping' );
-			if ( ! function_exists( 'edd_get_order_address' ) ) {
-				/* translators: the product name */
-				$fee_label = sprintf( __( '%s Shipping', 'edd-flat-rate-shipping' ), get_the_title( $item['id'] ) );
-			}
-			if ( ! empty( $item['fees'] ) ) {
-				foreach ( $item['fees'] as $fee ) {
-					if ( $fee['label'] === $fee_label ) {
-						$has_shipping = true;
-						break;
-					}
-				}
-			}
-
-			$region = $this->is_domestic ? 'domestic' : 'international';
-			$amount = $this->get_price_shipping_cost( $item['id'], $price_id, $region );
-			if ( $amount > 0 && false === $has_shipping ) {
-
-				$id = "flat_rate_shipping_{$item['id']}";
-				if ( null !== $price_id ) {
-					$id .= "_{$price_id}";
-				}
-				EDD()->fees->add_fee( array(
-					'amount'      => $amount,
-					'label'       => $fee_label,
-					'id'          => $id,
-					'download_id' => $item['id'],
-					'price_id'    => $price_id,
-					'no_tax'      => edd_get_option( 'flat_rate_shipping_disable_tax_on_shipping', false ),
-				) );
-			}
+		$has_shipping = false;
+		$fee_label    = __( 'Flat Rate Shipping', 'edd-flat-rate-shipping' );
+		$region = $this->is_domestic ? 'domestic' : 'international';
+		$amount = $this->get_flat_rate_shipping_cost( $region );
+		if ( $amount > 0 && $has_shipping === false ) {
+			EDD()->fees->add_fee( array(
+				'amount'      => $amount,
+				'label'       => $fee_label,
+				'no_tax'      => edd_get_option( 'flat_rate_shipping_disable_tax_on_shipping', false ),
+			) );
 		}
 	}
 
