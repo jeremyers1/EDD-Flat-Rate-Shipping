@@ -2,7 +2,7 @@
 
 /**
  * Class EDD_Flat_Rate_Shipping_Tracking
- * @since 2.3
+ * @since 1.0.0
  * Hooks, filters, and methods for the Tracking IDs features of Flat Rate Shipping
  */
 class EDD_Flat_Rate_Shipping_Tracking {
@@ -10,7 +10,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Load up all the hooks needed for tracking IDS
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 *
 	 */
 	public function __construct() {
@@ -26,7 +26,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Adds the tracking details as an order section in EDD 3.0.
 	 *
-	 * @since 2.3.9
+	 * @since 1.0.0
 	 * @param array  $sections The array of order sections.
 	 * @param object $order    The order object.
 	 * @return array
@@ -51,7 +51,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Shows the tracking details in EDD 3.0.
 	 *
-	 * @since 2.3.9
+	 * @since 1.0.0
 	 * @param object $order The order object.
 	 * @return void
 	 */
@@ -64,7 +64,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Show the tracking ID metabox on the view order details
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 * @param $payment_id
 	 *
 	 * @return void
@@ -88,7 +88,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Outputs the tracking info in the order details.
 	 *
-	 * @since 2.3.9
+	 * @since 1.0.0
 	 * @param int $payment_id The order ID.
 	 * @return void
 	 */
@@ -141,7 +141,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Display the input field for a tracking ID in the view order details metabox.
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 *
 	 * @param       $key
 	 * @param array $args
@@ -215,7 +215,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Save the post meta for the order details when adding tracking IDs
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 * @param $payment_id
 	 *
 	 * @return void
@@ -240,7 +240,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Register the `tracking_ids` email tag
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
@@ -251,7 +251,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Output a UL of the tracking IDs for a payment
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 * @param int $payment_id
 	 *
 	 * @return string
@@ -278,7 +278,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Replace the tracking_ids email tag with the actual email tag list.
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 *
 	 * @param $message
 	 * @param $payment_id
@@ -295,7 +295,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Use EDD_Emails to send the tracking IDs to the customer
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 *
 	 * @param $post
 	 * @return void
@@ -354,7 +354,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Check if a payment ID has tracking information
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 * @param int $payment_id
 	 *
 	 * @return bool
@@ -374,7 +374,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Get the tracking IDs for a payment.
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 * @param int $payment_id
 	 *
 	 * @return bool|mixed
@@ -394,7 +394,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Check if we've sent tracking IDs to a customer before.
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 * @param int $payment_id
 	 *
 	 * @return array|bool|mixed
@@ -416,7 +416,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Generate a link to AfterShip for a tracking ID
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 *
 	 * @param $tracking_id
 	 *
@@ -429,7 +429,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Show the 'Tracking' header on the order list.
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
@@ -442,7 +442,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Show the 'Tracking' content on the order list.
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
@@ -471,7 +471,7 @@ class EDD_Flat_Rate_Shipping_Tracking {
 	/**
 	 * Get the default tracking ID email content
 	 *
-	 * @since 2.3
+	 * @since 1.0.0
 	 *
 	 * @return mixed|string|void
 	 */
