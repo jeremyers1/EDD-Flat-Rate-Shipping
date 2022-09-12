@@ -1438,9 +1438,10 @@ class EDD_Flat_Rate_Shipping {
 
 require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 \EDD\ExtensionUtils\v1\ExtensionLoader::loadOrQuit( __FILE__, 'edd_flat_rate_shipping', array(
-	'php'                    => '5.3',
-	'easy-digital-downloads' => '2.9',
-) );
+	'php'                    => '7.1',
+	'easy-digital-downloads' => '3.0',
+) );  
+
 
 /**
  * Get everything running
