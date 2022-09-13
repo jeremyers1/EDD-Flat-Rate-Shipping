@@ -1,14 +1,18 @@
 <?php
 /**
- * Plugin Name: Easy Digital Downloads - Flat Rate Shipping
- * Plugin URI: https://github.com/jeremyers1/EDD-Flat-Rate-Shipping
- * Description: Provides the ability to charge a single flat-rate shipping fee for physical products in EDD.
- * Version: 1.0.0
- * Author: Jeremy D Myers
- * Author URI:  https://jeremydmyers.com
- * Contributors: easydigitaldownloads, mordauk, cklosows, jeremyers1
- * Text Domain: edd-flat-rate-shipping
+ * Plugin Name: 	Easy Digital Downloads - Flat Rate Shipping
+ * Plugin URI: 		https://github.com/jeremyers1/EDD-Flat-Rate-Shipping
+ * Description: 	Provides the ability to charge a single flat-rate shipping fee for physical products in EDD.
+ * Version: 			1.0.0
+ * Requires PHP: 	7.2
+ * Author: 				Jeremy D Myers
+ * Author URI:  	https://jeremydmyers.com
+ * Contributors: 	easydigitaldownloads, mordauk, cklosows, jeremyers1
+ * License: 			GPL v2 or later
+ * License URI: 	https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: 	edd-flat-rate-shipping
  */
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class EDD_Flat_Rate_Shipping {
@@ -1320,7 +1324,7 @@ class EDD_Flat_Rate_Shipping {
 require_once dirname( __FILE__ ) . '/includes/admin/ExtensionLoaderFRS.php';
 require_once dirname( __FILE__ ) . '/includes/admin/RequirementsCheckerFRS.php';
 ExtensionLoaderFRS::loadOrQuit( __FILE__, 'edd_flat_rate_shipping', array(
-	'php'                    => '7.1',
+	'php'                    => '7.2',
 	'easy-digital-downloads' => '3.0',
 ) ); 
 
