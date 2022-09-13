@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: 	Easy Digital Downloads - Flat Rate Shipping
+ * Plugin Name: 	EDD - Flat Rate Shipping
  * Plugin URI: 		https://github.com/jeremyers1/EDD-Flat-Rate-Shipping
  * Description: 	Provides the ability to charge a single flat-rate shipping fee for physical products in EDD.
  * Version: 			1.0.0
