@@ -438,19 +438,13 @@ class EDD_Flat_Rate_Shipping {
 	 * @return void
 	 */
 	public function remove_shipping_fees() {
-
 		$fees = EDD()->fees->get_fees( 'fee' );
+
 		if( empty( $fees ) ) {
 			return;
 		}
 
-		foreach( $fees as $key => $fee ) {
-			if( false === strpos( $key, 'flat_rate_shipping' ) ) {
-				continue;
-			}
-			unset( $fees[ $key ] );
-		}
-
+		$fees = array();
 		EDD()->session->set( 'edd_cart_fees', $fees );
 	}
 
