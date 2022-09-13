@@ -1386,7 +1386,7 @@ function edd_flat_rate_shipping_install() {
 
 		// When new upgrade routines are added, mark them as complete on fresh install
 		$upgrade_routines = array(
-			'ss_upgrade_customer_addresses',
+			'frs_upgrade_customer_addresses',
 		);
 
 		foreach ( $upgrade_routines as $upgrade ) {
