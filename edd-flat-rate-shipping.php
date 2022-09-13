@@ -230,7 +230,7 @@ class EDD_Flat_Rate_Shipping {
 	}
 
 	/**
-	 * Determine if a product has snipping enabled
+	 * Determine if a product has shipping enabled
 	 *
 	 * @since 1.0.0
 	 *
@@ -247,7 +247,7 @@ class EDD_Flat_Rate_Shipping {
 	 * Get the shipping cost for a specific download and/or price ID.
 	 *
 	 * @since 1.0.0
-	 * @param string $region      The region to pull for (domestic or international).
+	 * @param string $region The region to pull for (domestic or international).
 	 *
 	 * @return float
 	 */
