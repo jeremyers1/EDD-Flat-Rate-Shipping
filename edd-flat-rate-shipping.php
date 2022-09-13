@@ -11,16 +11,6 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
- * for testing purposes 
- */ 
-function console_log($data) {
-	if (is_array($data))
-			$data= implode(',', $data);
-
-	echo "<script>console.log('Debug: " . $data . "' );</script>";
-}
-
 class EDD_Flat_Rate_Shipping {
 
 	private static $instance;
