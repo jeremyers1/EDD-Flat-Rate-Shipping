@@ -1333,9 +1333,9 @@ class EDD_Flat_Rate_Shipping {
 
 }
 
-require_once dirname( __FILE__ ) . '/includes/admin/ExtensionLoader.php';
-require_once dirname( __FILE__ ) . '/includes/admin/RequirementsChecker.php';
-ExtensionLoader::loadOrQuit( __FILE__, 'edd_flat_rate_shipping', array(
+require_once dirname( __FILE__ ) . '/includes/admin/ExtensionLoaderFRS.php';
+require_once dirname( __FILE__ ) . '/includes/admin/RequirementsCheckerFRS.php';
+ExtensionLoaderFRS::loadOrQuit( __FILE__, 'edd_flat_rate_shipping', array(
 	'php'                    => '7.1',
 	'easy-digital-downloads' => '3.0',
 ) ); 
